@@ -14,7 +14,6 @@ import (
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/joho/godotenv"
-	"github.com/gorilla/mux"
 )
 
 type Block struct {
