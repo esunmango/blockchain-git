@@ -112,7 +112,7 @@ func handleWriteBlock(w http.ResponseWriter, r *http.Request){
 
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&m); err != nil {
-		respondWithJSON(w,r,http.StatusBadRequest, r.Body)
+		respondWhitJSON(w,r,http.StatusBadRequest, r.Body)
 		return
 	}
 	defer r.Body.Close()
@@ -131,4 +131,16 @@ func handleWriteBlock(w http.ResponseWriter, r *http.Request){
 
 	respondWhitJSON(w,r, http.StatusCreated,newBlock)
 
+}
+
+
+func respondWhitJSON(w http.ResponseWriter, r *http.Request, code int , payload interface{}) {
+	response, err := json.MarshalIndent(payload, "", " ")
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("HTTP 500: Internal Server Error"))
+		return
+	}
+	w.WriteHeader(code)
+	w.Write(response)
 }
